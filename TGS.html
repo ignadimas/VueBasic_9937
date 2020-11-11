@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+</head>
+<body style="background-color: cornsilk;">
+    <div id="app">
+        <div class="col-8 justify-content-center mx-auto mt-2" style="overflow-y: hidden;">
+            <div v-for="(todo,index) in todos" :key="index">
+                <div class="card p-4">
+                    <div>
+                        <span class="float-right"><button class="btn btn-sm" @click="delete(index)">x</button></span>
+                        <span v-if="todo.prioritas == 'Penting'" class="badge badge-light text-danger">{{ todo.prioritas }}</span>
+                        <span v-else-if="todo.prioritas == 'Biasa'" class="badge badge-light text-info">{{ todo.prioritas }}</span>
+                        <span v-else="todo.prioritas == 'Tidak Penting'" class="badge badge-light text-warning">{{ todo.prioritas }}</span>
+                        <br>
+                        <h3>{{ todo.judul }}</h3>
+                        <p>{{ todo.catatan }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-8 justify-content-center mx-auto mt-2">
+            <div class="card p-4">
+                <div>
+                    <p for="judul"><strong>Hal yang akan dikerjakan</strong> </p>
+                    <input type="text"  class="form-control" id="judul" >
+                </div>
+                <br>
+                <div>
+                    <p for="prioritas"><strong>Prioritas</strong> </p>
+                    <select name="prioritas"  id="prioritas" class="form-control" >
+                        <option value="Penting">Penting</option>
+                        <option value="Biasa">Biasa</option>
+                        <option value="Tidak Penting">Tidak Penting</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <p for="catatan"><strong>Tulis Catatan</strong> </p>
+                    <textarea class="form-control" id="catatan"></textarea>
+                </div>
+                <br>
+                <div>
+                    <button class="btn btn-warning" @click="reset">Reset</button>
+                    <button class="btn btn-success" @click="simpan">Simpan</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <center>
+        <div class="card-footer text-muted" >
+            {{ `${user.nama} | ${user.npm} | ${user.kelas}` }}
+        </div>
+        </center>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            todos:[
+                
+            ],
+            user: {
+                nama:'Ignatius Dimas Dwi S',
+                npm: '180709937',
+                kelas: 'A',
+            },
+        },
+        methods: {
+            simpan() {
+                let judul = document.getElementById('judul');
+                let prioritas = document.getElementById('prioritas');
+                let catatan = document.getElementById('catatan');
+                
+                let todo = {
+                    judul : judul.value,
+                    prioritas : prioritas.value,
+                    catatan : catatan.value,
+                }
+                document.getElementById('judul').value="";
+                document.getElementById('prioritas').value="";
+                document.getElementById('catatan').value="";
+                this.todos.push(todo);
+            },
+            delete(index){
+                this.todos.splice(index,1);
+            },
+            reset(){
+                document.getElementById('judul').value="";
+                document.getElementById('prioritas').value="";
+                document.getElementById('catatan').value="";
+            },
+        },
+    });
+</script>
+</html>   
